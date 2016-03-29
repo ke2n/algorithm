@@ -68,7 +68,7 @@ public class SuffixArray {
   }
 
   public static void main(String[] args) {
-    String s = "uhmhellouhmmynameislibe".replaceAll("\\s+", " ").trim();
+    String s = "mississipi".replaceAll("\\s+", " ").trim();
     SuffixArray suffix = new SuffixArray(s);
 
 
