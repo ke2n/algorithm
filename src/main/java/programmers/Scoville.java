@@ -5,12 +5,13 @@ import java.util.Queue;
 
 import lombok.extern.slf4j.Slf4j;
 
+// https://programmers.co.kr/learn/courses/30/lessons/42626?language=java
 @Slf4j
 public class Scoville {
 
     public int solution(int[] scoville, int K) {
         int answer = 0;
-        Queue<Integer> queue = new PriorityQueue();
+        Queue<Integer> queue = new PriorityQueue<>();
 
         for (int a : scoville) {
             queue.add(a);

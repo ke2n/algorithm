@@ -22,7 +22,7 @@ public class MyLanguagesTest {
         Map<String, Integer> map = new HashMap<>();
         map.put("Hindi", 10);
         map.put("Dutch", 93);
-        map.put("Greek", 71);
+        map.put("Greek", 60);
         String[] result = {"Dutch", "Greek"};
 
         assertArrayEquals(result, work.result(map));
