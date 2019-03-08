@@ -43,4 +43,11 @@ public class Test02Test {
         int[] tShirts = {4, 4, 4, 5};
         assertEquals(3, test.solution(people, tShirts));
     }
+
+    @Test
+    public void testCase05() {
+        int[] people = {1, 2, 3, 4};
+        int[] tShirts = {4, 4, 1, 3, 5};
+        assertEquals(4, test.solution(people, tShirts));
+    }
 }

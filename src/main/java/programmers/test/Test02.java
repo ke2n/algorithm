@@ -38,10 +38,13 @@ public class Test02 {
         }
 
         for(Integer person : peopleInfo.keySet()) {
-            for(Integer item : tshirtsStock.keySet()) {
-                if (person <= item && tshirtsStock.get(item) > 0) {
-                    tshirtsStock.put(item, tshirtsStock.get(item) - 1);
-                    peopleInfo.put(person, 0);
+            if (peopleInfo.get(person) > 0) {
+                for (Integer item : tshirtsStock.keySet()) {
+                    if (tshirtsStock.get(item) > 0
+                        && person <= item) {
+                        tshirtsStock.put(item, tshirtsStock.get(item) - 1);
+                        peopleInfo.put(person, 0);
+                    }
                 }
             }
         }
