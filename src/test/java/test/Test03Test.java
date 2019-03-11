@@ -12,23 +12,47 @@ public class Test03Test {
     private Test03 test;
 
     @Before
-    public void init(){
+    public void init() {
         test = new Test03();
     }
 
     @Test
     public void testCase01() {
         int[] healths = {200, 120, 150};
-        int[][] items = {{30,100}, {500,30}, {100,400}};
+        int[][] items = {{30, 100}, {500, 30}, {100, 400}};
         int[] result = {1, 2};
         assertArrayEquals(result, test.solution(healths, items));
     }
 
     @Test
     public void testCase02() {
-        int[] healths = {300,200,500};
+        int[] healths = {300, 200, 500};
         int[][] items = {{1000, 600}, {400, 500}, {300, 100}};
         int[] result = {3};
+        assertArrayEquals(result, test.solution(healths, items));
+    }
+
+    @Test
+    public void testCase03() {
+        int[] healths = {300, 200, 500};
+        int[][] items = {{1000, 300}, {400, 20}, {300, 300}};
+        int[] result = {1, 2};
+        assertArrayEquals(result, test.solution(healths, items));
+    }
+
+    @Test
+    public void testCase04() {
+        int[] healths = {200, 120, 150};
+        int[][] items = {{100, 100}, {400, 20}, {300, 100}};
+        int[] result = {2, 3};
+        assertArrayEquals(result, test.solution(healths, items));
+    }
+
+    @Test
+    public void testCase05() {
+        int[] healths = {200, 120, 150, 200};
+        int[][] items = {{100, 100}, {400, 20}, {300, 100}};
+        int[] result = {1, 2, 3};
         assertArrayEquals(result, test.solution(healths, items));
     }
 }

@@ -1,98 +1,90 @@
 package programmers.test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ *
  */
 @Slf4j
 public class Test03 {
 
     public int[] solution(int[] healths, int[][] items) {
         List<Integer> answer = new ArrayList<>();
-        List<CharacterInfo> charInfolist = new ArrayList<>();
-        Map<Integer, ItemInfo> itemInfoMap = new HashMap<>();
+        List<CharacterInfo> charInfoList = new ArrayList<>();
+        Queue<ItemInfo> itemQueue = new PriorityQueue<>();
 
-        for(int health: healths) {
-            charInfolist.add(new CharacterInfo(health));
+        for (int health : healths) {
+            charInfoList.add(new CharacterInfo(health));
         }
 
-        log.info("{}", charInfolist);
+        log.info("{}", charInfoList);
 
-        for(int i = 0; i < items.length; i++) {
-            itemInfoMap.put(i + 1, new ItemInfo(items[i][0], items[i][1]));
+        for (int i = 0; i < items.length; i++) {
+            itemQueue.add(new ItemInfo(i + 1, items[i][0], items[i][1]));
         }
+        log.info("itemQueue {}", itemQueue);
 
-        for(CharacterInfo charInfo: charInfolist) {
-            for(Integer itemKey: itemInfoMap.keySet()) {
-                ItemInfo item = itemInfoMap.get(itemKey);
-                if (charInfo.getHealth() - item.getMinusHealth() >= 100) {
-                    answer.add(itemKey);
-                    charInfo.setHealth(charInfo.getHealth() - item.getMinusHealth());
-                    charInfo.setAttackValue(item.getPlusAttack());
+        while (itemQueue.size() > 0) {
+            ItemInfo item = itemQueue.poll();
+            log.info("itemQueue.poll {}", item);
+            for (CharacterInfo charInfo : charInfoList) {
+                if (!charInfo.isApply() && charInfo.getHealth() - item.getMinusHealth() >= 100) {
+                    answer.add(item.getIdx());
+                    charInfo.setApply(true);
+                    break;
                 }
             }
         }
 
-        log.info("charInfolist {}", charInfolist);
+        log.info("charInfoList {}", charInfoList);
         log.info("answer {}", answer);
 
-        return answer.stream().mapToInt(Integer::intValue).distinct().toArray();
+        return answer.stream().mapToInt(Integer::intValue).sorted().toArray();
     }
 }
 
-class ItemInfo {
+@Getter
+@ToString
+@AllArgsConstructor
+class ItemInfo implements Comparable<ItemInfo> {
+
+    private int idx;
     private int plusAttack;
     private int minusHealth;
 
-    public ItemInfo(int plusAttack, int minusHealth) {
-        this.plusAttack = plusAttack;
-        this.minusHealth = minusHealth;
-    }
-
-    public int getPlusAttack() {
-        return plusAttack;
-    }
-
-    public int getMinusHealth() {
-        return minusHealth;
+    @Override
+    public int compareTo(ItemInfo o) {
+        if (this.minusHealth > o.minusHealth) {
+            return -1;
+        } else if (this.minusHealth < o.minusHealth) {
+            return 1;
+        }
+        // 기본적으로 minusHealth 역순으로 minusHealth가 같다면, plusAttack의 역순으로 정렬
+        return Integer.compare(o.plusAttack, this.plusAttack);
     }
 }
 
+@Getter
+@Setter
+@ToString
 class CharacterInfo {
+
     private int health;
     private int attackValue;
+    private boolean isApply;
 
     public CharacterInfo(int health) {
         this.health = health;
         this.attackValue = 0;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public int getAttackValue() {
-        return attackValue;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public void setAttackValue(int attackValue) {
-        this.attackValue = attackValue;
-    }
-
-    @Override
-    public String toString() {
-        return "CharacterInfo{" +
-            "health=" + health +
-            ", attackValue=" + attackValue +
-            '}';
+        this.isApply = false;
     }
 }
